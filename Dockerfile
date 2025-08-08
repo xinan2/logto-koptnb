@@ -13,6 +13,10 @@ RUN apk add --no-cache python3 make g++ rsync
 
 COPY . .
 
+# Normalize Windows CRLF to LF and ensure shell scripts are executable
+RUN find . -type f -name "*.sh" -exec sed -i 's/\r$//' {} + \
+  && find . -type f -name "*.sh" -exec chmod +x {} +
+
 ### Install dependencies and build ###
 RUN pnpm i
 

@@ -1,0 +1,45 @@
+# Docker Compose for local development with your forked code
+services:
+  app:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # Mount your local code into the container
+      - ./packages:/etc/logto/packages
+      - ./node_modules:/etc/logto/node_modules
+      - ./pnpm-lock.yaml:/etc/logto/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/etc/logto/pnpm-workspace.yaml
+      - ./package.json:/etc/logto/package.json
+    entrypoint: ["sh", "-c", "npm run cli db seed -- --swe && npm start"]
+    ports:
+      - 3001:3001
+      - 3002:3002
+    environment:
+      - TRUST_PROXY_HEADER=1
+      - DB_URL=postgres://postgres:p0stgr3s@postgres:5432/logto
+      - ENDPOINT=http://localhost:3001
+      - ADMIN_ENDPOINT=http://localhost:3002
+  
+  postgres:
+    image: postgres:17-alpine
+    user: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p0stgr3s
+    volumes:
+      # Persist database data
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5432:5432  # Expose PostgreSQL port for external tools if needed
+
+volumes:
+  postgres_data:
