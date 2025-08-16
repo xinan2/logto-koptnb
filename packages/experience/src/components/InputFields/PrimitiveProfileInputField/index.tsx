@@ -1,8 +1,8 @@
 import { CustomProfileFieldType, type FieldOption, Gender, type FieldPart } from '@logto/schemas';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxGroup from '@/components/CheckboxGroup';
-
+import CheckboxField from '../CheckboxField';
+import DateField from '../DateField';
 import InputField from '../InputField';
 import SelectField from '../SelectField';
 
@@ -20,6 +20,7 @@ const isGenderOptionKey = (key: string): key is Gender =>
 
 const PrimitiveProfileInputField = ({
   className,
+  name,
   label,
   type,
   config,
@@ -27,6 +28,7 @@ const PrimitiveProfileInputField = ({
   description,
   isDanger,
   errorMessage,
+  required,
   onBlur,
   onChange,
 }: Props) => {
@@ -44,10 +46,13 @@ const PrimitiveProfileInputField = ({
     return (
       <SelectField
         className={className}
+        name={name}
         label={label}
         options={options}
         value={value}
         description={description}
+        errorMessage={errorMessage}
+        required={required}
         onBlur={onBlur}
         onChange={onChange}
       />
@@ -55,26 +60,46 @@ const PrimitiveProfileInputField = ({
   }
   if (type === CustomProfileFieldType.Checkbox) {
     return (
-      <CheckboxGroup
+      <CheckboxField
         className={className}
-        options={options}
-        value={value?.split(',') ?? []}
-        description={description}
-        onChange={(value) => {
-          onChange(value.join(','));
+        name={name}
+        title={label}
+        checked={value === 'true'}
+        value={value}
+        onChange={(checked) => {
+          onChange(checked ? 'true' : 'false');
         }}
+      />
+    );
+  }
+  if (type === CustomProfileFieldType.Date) {
+    return (
+      <DateField
+        className={className}
+        name={name}
+        label={label}
+        dateFormat={config?.format}
+        description={description}
+        value={value}
+        errorMessage={errorMessage}
+        placeholder={config?.placeholder}
+        required={required}
+        onBlur={onBlur}
+        onChange={onChange}
       />
     );
   }
   return (
     <InputField
       className={className}
+      name={name}
       label={label}
       description={description}
       value={value ?? ''}
       isDanger={isDanger}
       errorMessage={errorMessage}
       placeholder={config?.placeholder}
+      required={required}
       onChange={(event) => {
         onChange(event.currentTarget.value);
       }}

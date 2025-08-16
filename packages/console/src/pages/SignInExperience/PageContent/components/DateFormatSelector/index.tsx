@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
+import { dateFnsDocumentationLink } from '@/consts';
 import FormField from '@/ds-components/FormField';
 import Select from '@/ds-components/Select';
 import TextInput from '@/ds-components/TextInput';
@@ -17,9 +18,7 @@ type Props = {
 };
 
 function DateFormatSelector({ index }: Props) {
-  const { t } = useTranslation(undefined, {
-    keyPrefix: 'admin_console.sign_in_exp.custom_profile_fields.details',
-  });
+  const { t } = useTranslation(undefined, { keyPrefix: 'admin_console' });
   const {
     control,
     register,
@@ -34,13 +33,18 @@ function DateFormatSelector({ index }: Props) {
 
   useEffect(() => {
     if (!formatValue) {
-      setValue(`${fieldPrefix}format`, SupportedDateFormat.US);
-      return;
-    }
-    if (formatValue !== SupportedDateFormat.Custom) {
-      setValue(`${fieldPrefix}customFormat`, '');
+      setValue(`${fieldPrefix}format`, SupportedDateFormat.US, { shouldDirty: true });
+      setValue(`${fieldPrefix}placeholder`, SupportedDateFormat.US, { shouldDirty: true });
     }
   }, [fieldPrefix, formatValue, setValue]);
+
+  useEffect(() => {
+    return () => {
+      setValue(`${fieldPrefix}format`, '');
+      setValue(`${fieldPrefix}placeholder`, '');
+      setValue(`${fieldPrefix}customFormat`, '');
+    };
+  }, [fieldPrefix, setValue]);
 
   return (
     <div className={styles.dateFormatSelector}>
@@ -50,13 +54,32 @@ function DateFormatSelector({ index }: Props) {
         render={({ field: { value, onChange } }) => (
           <Select
             options={[
-              { value: SupportedDateFormat.US, title: t('date_format_us') },
-              { value: SupportedDateFormat.UK, title: t('date_format_uk') },
-              { value: SupportedDateFormat.ISO, title: t('date_format_iso') },
-              { value: SupportedDateFormat.Custom, title: t('custom_date_format') },
+              {
+                value: SupportedDateFormat.US,
+                title: t('sign_in_exp.custom_profile_fields.details.date_format_us'),
+              },
+              {
+                value: SupportedDateFormat.UK,
+                title: t('sign_in_exp.custom_profile_fields.details.date_format_uk'),
+              },
+              {
+                value: SupportedDateFormat.ISO,
+                title: t('sign_in_exp.custom_profile_fields.details.date_format_iso'),
+              },
+              {
+                value: SupportedDateFormat.Custom,
+                title: t('sign_in_exp.custom_profile_fields.details.custom_date_format'),
+              },
             ]}
             value={value}
-            onChange={onChange}
+            onChange={(value) => {
+              onChange(value);
+              setValue(
+                `${fieldPrefix}placeholder`,
+                value === SupportedDateFormat.Custom ? '' : value,
+                { shouldDirty: true }
+              );
+            }}
           />
         )}
       />
@@ -64,15 +87,24 @@ function DateFormatSelector({ index }: Props) {
         <FormField isRequired title="sign_in_exp.custom_profile_fields.details.custom_date_format">
           <TextInput
             {...register(`${fieldPrefix}customFormat`, { required: true })}
-            error={formErrors?.customFormat?.message}
-            placeholder={t('custom_date_format_placeholder')}
+            error={
+              formErrors?.customFormat &&
+              t('errors.required_field_missing', {
+                field: t(
+                  'sign_in_exp.custom_profile_fields.details.custom_date_format'
+                ).toLowerCase(),
+              })
+            }
+            placeholder={t(
+              'sign_in_exp.custom_profile_fields.details.custom_date_format_placeholder'
+            )}
             description={
               <Trans
                 components={{
-                  a: <TextLink targetBlank href="https://date-fns.org/v2.30.0/docs/format" />,
+                  a: <TextLink targetBlank href={dateFnsDocumentationLink} />,
                 }}
               >
-                {t('custom_date_format_tip')}
+                {t('sign_in_exp.custom_profile_fields.details.custom_date_format_tip')}
               </Trans>
             }
           />

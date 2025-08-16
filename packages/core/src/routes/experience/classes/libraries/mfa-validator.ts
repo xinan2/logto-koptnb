@@ -5,13 +5,15 @@ import {
   userMfaDataGuard,
   userMfaDataKey,
   type Mfa,
-  type MfaVerification,
   type User,
 } from '@logto/schemas';
 
 import { getAllUserEnabledMfaVerifications } from '../helpers.js';
 import { type BackupCodeVerification } from '../verifications/backup-code-verification.js';
-import { type EmailCodeVerification } from '../verifications/code-verification.js';
+import {
+  type EmailCodeVerification,
+  type PhoneCodeVerification,
+} from '../verifications/code-verification.js';
 import { type VerificationRecord } from '../verifications/index.js';
 import { type TotpVerification } from '../verifications/totp-verification.js';
 import { type WebAuthnVerification } from '../verifications/web-authn-verification.js';
@@ -21,26 +23,30 @@ const mfaVerificationTypes = Object.freeze([
   VerificationType.BackupCode,
   VerificationType.WebAuthn,
   VerificationType.EmailVerificationCode,
+  VerificationType.PhoneVerificationCode,
 ]);
 
 type MfaVerificationType =
   | VerificationType.TOTP
   | VerificationType.BackupCode
   | VerificationType.WebAuthn
-  | VerificationType.EmailVerificationCode;
+  | VerificationType.EmailVerificationCode
+  | VerificationType.PhoneVerificationCode;
 
 const mfaVerificationTypeToMfaFactorMap = Object.freeze({
   [VerificationType.TOTP]: MfaFactor.TOTP,
   [VerificationType.BackupCode]: MfaFactor.BackupCode,
   [VerificationType.WebAuthn]: MfaFactor.WebAuthn,
   [VerificationType.EmailVerificationCode]: MfaFactor.EmailVerificationCode,
+  [VerificationType.PhoneVerificationCode]: MfaFactor.PhoneVerificationCode,
 }) satisfies Record<MfaVerificationType, MfaFactor>;
 
 type MfaVerificationRecord =
   | TotpVerification
   | WebAuthnVerification
   | BackupCodeVerification
-  | EmailCodeVerification;
+  | EmailCodeVerification
+  | PhoneCodeVerification;
 
 const isMfaVerificationRecord = (
   verification: VerificationRecord
@@ -75,38 +81,14 @@ export class MfaValidator {
   get availableUserMfaVerificationTypes() {
     return (
       this.userEnabledMfaVerifications
-        // Filter out backup codes if all the codes are used
-        .filter((verification) => {
-          if (verification.type !== MfaFactor.BackupCode) {
-            return true;
-          }
-          return verification.codes.some((code) => !code.usedAt);
-        })
         // Filter out duplicated verifications with the same type
-        .reduce<MfaVerification[]>((verifications, verification) => {
-          if (verifications.some(({ type }) => type === verification.type)) {
+        .reduce<MfaFactor[]>((verifications, verification) => {
+          if (verifications.includes(verification)) {
             return verifications;
           }
 
           return [...verifications, verification];
         }, [])
-        .slice()
-        // Sort by last used time, the latest used factor is the first one, backup code is always the last one
-        .sort((verificationA, verificationB) => {
-          if (verificationA.type === MfaFactor.BackupCode) {
-            return 1;
-          }
-
-          if (verificationB.type === MfaFactor.BackupCode) {
-            return -1;
-          }
-
-          return (
-            new Date(verificationB.lastUsedAt ?? 0).getTime() -
-            new Date(verificationA.lastUsedAt ?? 0).getTime()
-          );
-        })
-        .map(({ type }) => type)
     );
   }
 
@@ -139,8 +121,8 @@ export class MfaValidator {
         // New bind MFA verification can not be used for verification
         !verification.isNewBindMfaVerification &&
         // Check if the verification type is enabled in the user's MFA settings
-        this.userEnabledMfaVerifications.some(
-          (factor) => factor.type === mfaVerificationTypeToMfaFactorMap[verification.type]
+        this.userEnabledMfaVerifications.includes(
+          mfaVerificationTypeToMfaFactorMap[verification.type]
         )
     );
 

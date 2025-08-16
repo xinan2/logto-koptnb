@@ -4,14 +4,14 @@ const profile = {
   givenName: 'الاسم الأول',
   familyName: 'اسم العائلة',
   middleName: 'الاسم الأوسط',
-  fullName: 'الاسم الكامل',
+  fullname: 'الاسم الكامل',
   nickname: 'الاسم المستعار',
   preferredUsername: 'اسم المستخدم المفضل',
   profile: 'الملف الشخصي',
   website: 'الموقع الإلكتروني',
   gender: 'الجنس',
   birthdate: 'تاريخ الميلاد',
-  zoneinfo: 'معلومات المنطقة الزمنية',
+  zoneinfo: 'المنطقة الزمنية',
   locale: 'اللغة والمنطقة',
   address: {
     formatted: 'العنوان',
@@ -24,7 +24,7 @@ const profile = {
   gender_options: {
     female: 'أنثى',
     male: 'ذكر',
-    other: 'أفضل عدم القول',
+    prefer_not_to_say: 'أفضل عدم القول',
   },
 };
 

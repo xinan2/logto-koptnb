@@ -64,6 +64,8 @@ const mfaFactorsGuard = s.array(
     s.literal(MfaFactor.TOTP),
     s.literal(MfaFactor.WebAuthn),
     s.literal(MfaFactor.BackupCode),
+    s.literal(MfaFactor.EmailVerificationCode),
+    s.literal(MfaFactor.PhoneVerificationCode),
   ])
 );
 
@@ -174,6 +176,7 @@ export const extraProfileFieldNamesGuard = s.union([
   s.literal('birthdate'),
   s.literal('zoneinfo'),
   s.literal('locale'),
+  s.literal('fullname'),
   s.literal('address.formatted'),
   s.literal('address.streetAddress'),
   s.literal('address.locality'),
@@ -199,6 +202,7 @@ const dateFormatEnumGuard = s.enums(Object.values(SupportedDateFormat));
 
 export const dateFieldConfigGuard = s.object({
   format: dateFormatEnumGuard,
+  placeholder: s.optional(s.string()),
   customFormat: s.optional(s.string()),
 });
 
@@ -218,6 +222,7 @@ const baseConfigPartGuard = s.object({
       options: s.optional(s.array(s.object({ value: s.string(), label: s.optional(s.string()) }))),
       format: s.optional(s.string()),
       customFormat: s.optional(s.string()),
+      defaultValue: s.optional(s.string()),
     })
   ),
 });

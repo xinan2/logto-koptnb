@@ -11,24 +11,29 @@ import styles from './index.module.scss';
 
 type Props = {
   readonly className?: string;
+  readonly name?: string;
   readonly options: Array<{ value: string; label: string }>;
   readonly value?: string;
   readonly description?: Nullable<string>;
   readonly label?: string;
   readonly placeholder?: string;
   readonly errorMessage?: string;
+  // eslint-disable-next-line react/boolean-prop-naming
+  readonly required?: boolean;
   readonly onBlur?: () => void;
   readonly onChange: (value: string) => void;
 };
 
 const SelectField = ({
   className,
+  name,
   options,
   value,
   description,
   label,
   placeholder,
   errorMessage,
+  required,
   onBlur,
   onChange,
 }: Props) => {
@@ -43,9 +48,11 @@ const SelectField = ({
       <div ref={ref} className={styles.select}>
         <InputField
           readOnly
+          name={name}
           label={label}
           placeholder={placeholder}
           isDanger={!!errorMessage}
+          required={required}
           value={currentValue}
           onClick={() => {
             setIsOpen(true);

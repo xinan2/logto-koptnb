@@ -15,7 +15,7 @@ import useValidateField from './use-validate-field';
 type Props = {
   readonly customProfileFields: CustomProfileField[];
   readonly defaultValues?: Record<string, unknown>;
-  readonly onSubmit: (values: Record<string, unknown>) => void;
+  readonly onSubmit: (values: Record<string, unknown>) => Promise<void>;
 };
 
 const ExtraProfileForm = ({ customProfileFields, defaultValues, onSubmit }: Props) => {
@@ -29,14 +29,11 @@ const ExtraProfileForm = ({ customProfileFields, defaultValues, onSubmit }: Prop
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
   } = methods;
 
-  const submit = handleSubmit((value) => {
-    if (!isValid) {
-      return;
-    }
-    onSubmit(value);
+  const submit = handleSubmit(async (value) => {
+    await onSubmit(value);
   });
 
   return (
@@ -46,7 +43,7 @@ const ExtraProfileForm = ({ customProfileFields, defaultValues, onSubmit }: Prop
           if (field.type === CustomProfileFieldType.Fullname) {
             return <FullnameSubForm key={field.name} field={field} />;
           }
-          const { name, type, label, description } = field;
+          const { name, type, label, description, required } = field;
           return (
             <Controller
               key={name}
@@ -65,8 +62,10 @@ const ExtraProfileForm = ({ customProfileFields, defaultValues, onSubmit }: Prop
                 return (
                   <PrimitiveProfileInputField
                     {...field}
+                    name={name}
                     label={label || getFieldLabel(name)}
                     description={condString(description)}
+                    required={required}
                     value={value}
                     isDanger={!!errors[name]}
                     errorMessage={errors[name]?.message}
@@ -79,7 +78,6 @@ const ExtraProfileForm = ({ customProfileFields, defaultValues, onSubmit }: Prop
           );
         })}
         <Button title="action.continue" htmlType="submit" isLoading={isSubmitting} />
-
         <input hidden type="submit" />
       </form>
     </FormProvider>

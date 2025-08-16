@@ -4,7 +4,7 @@ const profile = {
   givenName: 'Nome',
   familyName: 'Sobrenome',
   middleName: 'Nome do meio',
-  fullName: 'Nome completo',
+  fullname: 'Nome completo',
   nickname: 'Apelido',
   preferredUsername: 'Nome de usuário preferido',
   profile: 'Perfil',
@@ -24,7 +24,7 @@ const profile = {
   gender_options: {
     female: 'Feminino',
     male: 'Masculino',
-    other: 'Prefiro não dizer',
+    prefer_not_to_say: 'Prefiro não dizer',
   },
 };
 

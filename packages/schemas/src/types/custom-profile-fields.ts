@@ -91,18 +91,22 @@ export const dateProfileFieldGuard = baseProfileFieldGuard.extend({
     .optional(),
 }) satisfies ToZodObject<DateProfileField>;
 
-export type CheckboxProfileField = BaseProfileField & {
+export type CheckboxProfileField = Omit<BaseProfileField, 'description'> & {
   type: CustomProfileFieldType.Checkbox;
-  config: {
-    options: Array<{ label?: string; value: string }>;
+  required: false;
+  config?: {
+    defaultValue: 'true' | 'false';
   };
 };
 
-export const checkboxProfileFieldGuard = baseProfileFieldGuard.extend({
+export const checkboxProfileFieldGuard = baseProfileFieldGuard.omit({ description: true }).extend({
   type: z.literal(CustomProfileFieldType.Checkbox),
-  config: z.object({
-    options: z.array(z.object({ label: z.string().optional(), value: z.string() })),
-  }),
+  required: z.literal(false),
+  config: z
+    .object({
+      defaultValue: z.literal('true').or(z.literal('false')),
+    })
+    .optional(),
 }) satisfies ToZodObject<CheckboxProfileField>;
 
 export type SelectProfileField = BaseProfileField & {
@@ -292,6 +296,23 @@ export type UpdateCustomProfileFieldSieOrder = z.infer<
   typeof updateCustomProfileFieldSieOrderGuard
 >;
 
+/**
+ * Reserved custom data keys, which are used by the system and should not be used by custom profile fields.
+ */
+export const reservedCustomDataKeyGuard = z
+  .object({
+    [userOnboardingDataKey]: z.string(),
+    [guideRequestsKey]: z.string(),
+    [consoleUserPreferenceKey]: z.string(),
+    [defaultTenantIdKey]: z.string(),
+  })
+  .partial();
+export const reservedCustomDataKeys = Object.freeze(reservedCustomDataKeyGuard.keyof().options);
+
+/**
+ * Disallow sign-in identifiers related field keys in custom profile fields, as this is conflicting
+ * with the built-in sign-in/sign-up experience flows.
+ */
 export const signInIdentifierKeyGuard = Users.createGuard
   .pick({
     username: true,
@@ -302,23 +323,17 @@ export const signInIdentifierKeyGuard = Users.createGuard
     email: z.string().nullable().optional(),
     phone: z.string().nullable().optional(),
   });
-
-export const reservedCustomDataKeyGuard = z
-  .object({
-    [userOnboardingDataKey]: z.string(),
-    [guideRequestsKey]: z.string(),
-    [consoleUserPreferenceKey]: z.string(),
-    [defaultTenantIdKey]: z.string(),
-  })
-  .partial();
-
-export const reservedCustomDataKeys = Object.freeze(reservedCustomDataKeyGuard.keyof().options);
+export const reservedSignInIdentifierKeys = Object.freeze(signInIdentifierKeyGuard.keyof().options);
 
 /**
- * Disallow sign-in identifiers related field keys in custom profile fields, as this is conflicting
- * with the built-in sign-in/sign-up experience flows.
+ * Reserved user profile keys.
+ * Currently only `preferredUsername` is reserved since it is the standard username property used
+ * by most identity providers. Should not allow user updating this field via profile related APIs.
  */
-export const reservedSignInIdentifierKeys = Object.freeze(signInIdentifierKeyGuard.keyof().options);
+export const reservedBuiltInProfileKeyGuard = userProfileGuard.pick({ preferredUsername: true });
+export const reservedBuiltInProfileKeys = Object.freeze(
+  reservedBuiltInProfileKeyGuard.keyof().options
+);
 
 export enum SupportedDateFormat {
   US = 'MM/dd/yyyy',
@@ -330,5 +345,5 @@ export enum SupportedDateFormat {
 export enum Gender {
   Female = 'female',
   Male = 'male',
-  Other = 'other',
+  Other = 'prefer_not_to_say',
 }

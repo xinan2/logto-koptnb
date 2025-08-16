@@ -4,7 +4,7 @@ const profile = {
   givenName: '名',
   familyName: '姓',
   middleName: 'ミドルネーム',
-  fullName: 'フルネーム',
+  fullname: 'フルネーム',
   nickname: 'ニックネーム',
   preferredUsername: '希望ユーザー名',
   profile: 'プロフィール',
@@ -24,7 +24,7 @@ const profile = {
   gender_options: {
     female: '女性',
     male: '男性',
-    other: '答えたくない',
+    prefer_not_to_say: '答えたくない',
   },
 };
 

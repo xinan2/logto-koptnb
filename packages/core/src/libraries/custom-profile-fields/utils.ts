@@ -10,11 +10,14 @@ import {
   urlProfileFieldGuard,
   addressProfileFieldGuard,
   CustomProfileFieldType,
-  reservedCustomDataKeys,
-  reservedSignInIdentifierKeys,
 } from '@logto/schemas';
 import { ZodError } from 'zod';
 
+import {
+  reservedBuiltInProfileKeySet,
+  reservedCustomDataKeySet,
+  reservedSignInIdentifierKeySet,
+} from '#src/constants/index.js';
 import RequestError from '#src/errors/RequestError/index.js';
 import assertThat from '#src/utils/assert-that.js';
 
@@ -46,7 +49,7 @@ const validateNumberProfileField: ValidateCustomProfileField = (data) => {
 const validateCheckboxProfileField: ValidateCustomProfileField = (data, isStrict) => {
   const { config } = checkboxProfileFieldGuard.parse(data);
   if (isStrict) {
-    assertThat(config.options.length > 0, 'custom_profile_fields.invalid_options');
+    assertThat(config?.defaultValue !== undefined, 'custom_profile_fields.invalid_default_value');
   }
 };
 
@@ -66,7 +69,13 @@ const validateRegexProfileField: ValidateCustomProfileField = (data, isStrict) =
 
 const validateAddressProfileField: ValidateCustomProfileField = (data, isStrict) => {
   const { config } = addressProfileFieldGuard.parse(data);
-  assertThat(config.parts.length > 0, 'custom_profile_fields.invalid_address_parts');
+  assertThat(config.parts.length > 0, 'custom_profile_fields.invalid_address_components');
+  assertThat(
+    !config.parts.some(({ type }) =>
+      [CustomProfileFieldType.Address, CustomProfileFieldType.Fullname].includes(type)
+    ),
+    'custom_profile_fields.invalid_sub_component_type'
+  );
 
   if (isStrict) {
     for (const part of config.parts) {
@@ -77,7 +86,13 @@ const validateAddressProfileField: ValidateCustomProfileField = (data, isStrict)
 
 const validateFullnameProfileField: ValidateCustomProfileField = (data, isStrict) => {
   const { config } = fullnameProfileFieldGuard.parse(data);
-  assertThat(config.parts.length > 0, 'custom_profile_fields.invalid_fullname_parts');
+  assertThat(config.parts.length > 0, 'custom_profile_fields.invalid_fullname_components');
+  assertThat(
+    !config.parts.some(({ type }) =>
+      [CustomProfileFieldType.Address, CustomProfileFieldType.Fullname].includes(type)
+    ),
+    'custom_profile_fields.invalid_sub_component_type'
+  );
 
   if (isStrict) {
     for (const part of config.parts) {
@@ -111,11 +126,15 @@ const validateDateProfileField: ValidateCustomProfileField = (data) => {
 const validateFieldName = (name: string) => {
   assertThat(numberAndAlphabetRegEx.test(name), 'custom_profile_fields.invalid_name');
   assertThat(
-    !new Set<string>(reservedCustomDataKeys).has(name),
+    !reservedBuiltInProfileKeySet.has(name),
+    new RequestError({ code: 'custom_profile_fields.name_conflict_built_in_prop', name })
+  );
+  assertThat(
+    !reservedCustomDataKeySet.has(name),
     new RequestError({ code: 'custom_profile_fields.name_conflict_custom_data', name })
   );
   assertThat(
-    !new Set<string>(reservedSignInIdentifierKeys).has(name),
+    !reservedSignInIdentifierKeySet.has(name),
     new RequestError({ code: 'custom_profile_fields.name_conflict_sign_in_identifier', name })
   );
 };

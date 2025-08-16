@@ -4,7 +4,7 @@ const profile = {
   givenName: 'Ad',
   familyName: 'Soyad',
   middleName: 'İkinci Ad',
-  fullName: 'Tam Ad',
+  fullname: 'Tam Ad',
   nickname: 'Takma Ad',
   preferredUsername: 'Tercih Edilen Kullanıcı Adı',
   profile: 'Profil',
@@ -24,7 +24,7 @@ const profile = {
   gender_options: {
     female: 'Kadın',
     male: 'Erkek',
-    other: 'Söylememeyi tercih ederim',
+    prefer_not_to_say: 'Söylememeyi tercih ederim',
   },
 };
 

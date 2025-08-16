@@ -4,14 +4,14 @@ const profile = {
   givenName: '名',
   familyName: '姓',
   middleName: '中间名',
-  fullName: '全名',
+  fullname: '全名',
   nickname: '昵称',
   preferredUsername: '首选用户名',
   profile: '个人资料',
   website: '网站',
   gender: '性别',
   birthdate: '出生日期',
-  zoneinfo: '时区信息',
+  zoneinfo: '时区',
   locale: '语言环境',
   address: {
     formatted: '地址',
@@ -24,7 +24,7 @@ const profile = {
   gender_options: {
     female: '女性',
     male: '男性',
-    other: '不愿透露',
+    prefer_not_to_say: '不愿透露',
   },
 };
 
