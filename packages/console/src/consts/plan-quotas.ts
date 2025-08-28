@@ -9,6 +9,7 @@ export const ticketSupportResponseTimeMap: Record<string, number> = {
   [ReservedPlanId.Free]: 0,
   [ReservedPlanId.Pro]: 48,
   [ReservedPlanId.Pro202411]: 48,
+  [ReservedPlanId.Pro202509]: 48,
 };
 
 /**
@@ -39,3 +40,17 @@ export const skuQuotaItemOrder: Array<keyof LogtoSkuQuota> = [
 ];
 
 export const comingSoonSkuQuotaKeys: Array<keyof LogtoSkuQuota> = [];
+
+/**
+ * Quota keys that are hidden in the subscription downgrade notification modal.
+ *
+ * @remarks We hide the following quota keys from the downgrade notification modal
+ * because they are either add-on features or their quotas vary based on the current plan.
+ */
+export const hiddenQuotaDiffUsageKeys: Array<keyof LogtoSkuQuota> = [
+  'tokenLimit',
+  'scopesPerResourceLimit',
+  'userRolesLimit',
+  'machineToMachineRolesLimit',
+  'scopesPerRoleLimit',
+];

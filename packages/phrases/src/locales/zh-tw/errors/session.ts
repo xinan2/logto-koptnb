@@ -35,6 +35,7 @@ const session = {
     invalid_backup_code: '無效的備份碼。',
     mfa_policy_not_user_controlled: 'MFA 策略不受用戶控制。',
     mfa_factor_not_enabled: 'MFA 因素未啟用。',
+    suggest_additional_mfa: '為了更強的保護，建議新增另一種多重驗證方式。你可以跳過此步驟並繼續。',
   },
   sso_enabled: '該郵箱已開啟單點登錄，請使用 SSO 登錄。',
   captcha_required: '需要驗證碼。',
@@ -46,8 +47,7 @@ const session = {
     email_not_allowed: '電子郵件地址 "{{email}}" 受到限制。請選擇不同的地址。',
   },
   google_one_tap: {
-    /** UNTRANSLATED */
-    cookie_mismatch: 'Google One Tap cookie mismatch.',
+    cookie_mismatch: 'Google One Tap cookie 不匹配。',
     invalid_id_token: '無效的 Google ID token。',
     unverified_email: '未驗證的電子郵件。',
   },

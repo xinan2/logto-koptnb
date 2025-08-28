@@ -43,6 +43,8 @@ const session = {
     invalid_backup_code: 'Geçersiz yedek kod.',
     mfa_policy_not_user_controlled: 'MFA politikası kullanıcı tarafından kontrol edilmez.',
     mfa_factor_not_enabled: 'MFA faktörü etkin değil.',
+    suggest_additional_mfa:
+      'Daha güçlü koruma için başka bir MFA yöntemi eklemeyi düşünün. Bu adımı atlayıp devam edebilirsiniz.',
   },
   sso_enabled: 'Bu e-posta için tek oturum açma etkin. Lütfen SSO ile oturum açın.',
   captcha_required: 'Captcha gereklidir.',
@@ -54,8 +56,7 @@ const session = {
     email_not_allowed: 'Kısıtlanmış e-posta adresi "{{email}}". Lütfen farklı bir tane seçiniz.',
   },
   google_one_tap: {
-    /** UNTRANSLATED */
-    cookie_mismatch: 'Google One Tap cookie mismatch.',
+    cookie_mismatch: 'Google One Tap çerezleri uyuşmuyor.',
     invalid_id_token: 'Geçersiz Google Kimliği Jetonu.',
     unverified_email: 'Doğrulanmamış e-posta.',
   },

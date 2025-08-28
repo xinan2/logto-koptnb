@@ -40,6 +40,8 @@ const session = {
     invalid_backup_code: '유효하지 않은 백업 코드예요.',
     mfa_policy_not_user_controlled: 'MFA 정책은 사용자가 제어할 수 없어요.',
     mfa_factor_not_enabled: 'MFA 요소가 활성화되지 않았습니다.',
+    suggest_additional_mfa:
+      '보안을 강화하기 위해 다른 MFA 방법을 추가하는 것을 권장합니다. 이 단계는 건너뛰고 계속할 수 있습니다.',
   },
   sso_enabled: '이 이메일로는 SSO가 활성화되어 있어요. SSO로 로그인해 주세요.',
   captcha_required: 'Captcha 가 필요해요.',
@@ -51,8 +53,7 @@ const session = {
     email_not_allowed: '이메일 주소 "{{email}}" 는 제한되어 있어요. 다른 주소를 선택해 주세요.',
   },
   google_one_tap: {
-    /** UNTRANSLATED */
-    cookie_mismatch: 'Google One Tap cookie mismatch.',
+    cookie_mismatch: 'Google One Tap 쿠키가 일치하지 않아요.',
     invalid_id_token: '유효하지 않은 Google ID 토큰이에요.',
     unverified_email: '확인되지 않은 이메일 주소예요.',
   },

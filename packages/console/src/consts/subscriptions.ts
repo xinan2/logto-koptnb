@@ -1,5 +1,7 @@
 import { ReservedPlanId } from '@logto/schemas';
 
+import { isDevFeaturesEnabled } from './env';
+
 /**
  * Shared quota limits between the featured plan content in the `CreateTenantModal` and the `PlanComparisonTable`.
  */
@@ -22,16 +24,10 @@ export const organizationAddOnUnitPrice = 48;
 export const tokenAddOnUnitPrice = 80;
 export const hooksAddOnUnitPrice = 2;
 export const securityFeaturesAddOnUnitPrice = 48;
+export const thirdPartyApplicationsAddOnUnitPrice = 8;
+export const samlApplicationsAddOnUnitPrice = 96;
+export const rbacEnabledAddOnUnitPrice = 32;
 /* === Add-on unit price (in USD) === */
-
-/**
- * In console, only featured plans are shown in the plan selection component.
- * we will this to filter out the public visible featured plans.
- */
-export const featuredPlanIds: readonly string[] = Object.freeze([
-  ReservedPlanId.Free,
-  ReservedPlanId.Pro202411,
-]);
 
 /**
  * The order of plans in the plan selection content component.
@@ -42,9 +38,21 @@ export const planIdOrder: Record<string, number> = Object.freeze({
   [ReservedPlanId.Free]: 0,
   [ReservedPlanId.Pro]: 1,
   [ReservedPlanId.Pro202411]: 1,
+  [ReservedPlanId.Pro202509]: 1,
 });
 
 export const checkoutStateQueryKey = 'checkout-state';
 
 /** The latest pro plan id we are using. */
-export const latestProPlanId = ReservedPlanId.Pro202411;
+export const latestProPlanId = isDevFeaturesEnabled
+  ? ReservedPlanId.Pro202509
+  : ReservedPlanId.Pro202411;
+
+/**
+ * In console, only featured plans are shown in the plan selection component.
+ * we will this to filter out the public visible featured plans.
+ */
+export const featuredPlanIds: readonly string[] = Object.freeze([
+  ReservedPlanId.Free,
+  latestProPlanId,
+]);

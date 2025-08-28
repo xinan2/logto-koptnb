@@ -44,6 +44,8 @@ const session = {
     invalid_backup_code: 'Nieprawidłowy kod zapasowy.',
     mfa_policy_not_user_controlled: 'Polityka MFA nie jest kontrolowana przez użytkownika.',
     mfa_factor_not_enabled: 'Czynnik MFA nie jest włączony.',
+    suggest_additional_mfa:
+      'Dla lepszej ochrony rozważ dodanie kolejnej metody MFA. Możesz pominąć ten krok i kontynuować.',
   },
   sso_enabled: 'Single sign on jest włączony dla tego adresu e-mail. Zaloguj się za pomocą SSO.',
   captcha_required: 'Wymagana jest captcha.',
@@ -55,8 +57,7 @@ const session = {
     email_not_allowed: 'Adres email "{{email}}" jest zastrzeżony. Proszę wybrać inny.',
   },
   google_one_tap: {
-    /** UNTRANSLATED */
-    cookie_mismatch: 'Google One Tap cookie mismatch.',
+    cookie_mismatch: 'Nieprawidłowe dopasowanie ciasteczek Google One Tap.',
     invalid_id_token: 'Nieprawidłowy token ID Google.',
     unverified_email: 'Niezweryfikowany email.',
   },

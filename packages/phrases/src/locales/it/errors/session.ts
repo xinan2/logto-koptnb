@@ -45,6 +45,8 @@ const session = {
     invalid_backup_code: 'Codice di backup non valido.',
     mfa_policy_not_user_controlled: "La politica MFA non è controllata dall'utente.",
     mfa_factor_not_enabled: 'Il fattore MFA non è abilitato.',
+    suggest_additional_mfa:
+      'Per una protezione maggiore, considera di aggiungere un altro metodo MFA. Puoi saltare questo passaggio e continuare.',
   },
   sso_enabled: "L'accesso singolo è abilitato per questa email. Accedi con SSO.",
   captcha_required: 'È richiesto il Captcha.',
@@ -57,8 +59,7 @@ const session = {
       'L\'indirizzo email "{{email}}" è ristretto. Si prega di sceglierne un altro.',
   },
   google_one_tap: {
-    /** UNTRANSLATED */
-    cookie_mismatch: 'Google One Tap cookie mismatch.',
+    cookie_mismatch: 'Discrepanza dei cookie di Google One Tap.',
     invalid_id_token: 'Token ID Google non valido.',
     unverified_email: 'Email non verificata.',
   },

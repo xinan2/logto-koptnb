@@ -55,7 +55,11 @@ const usage = {
   tenant_members: {
     title: 'Miembros del inquilino',
     tooltip:
-      'Función adicional con un precio de ${{price, number}} por miembro por mes. Los primeros 3 miembros del inquilino son gratis.',
+      'Función adicional con un precio de ${{price, number}} por miembro por mes. Los primeros {{count}} miembros del inquilino son gratis.',
+    tooltip_one:
+      'Función adicional con un precio de ${{price, number}} por miembro por mes. El primer {{count}} miembro del inquilino es gratis.',
+    tooltip_other:
+      'Función adicional con un precio de ${{price, number}} por miembro por mes. Los primeros {{count}} miembros del inquilino son gratis.',
     tooltip_for_enterprise:
       'Los primeros {{basicQuota}} miembros del inquilino están incluidos y son gratuitos en tu plan basado en contrato. Si necesitas más, ${{price, number}} por miembro del inquilino por mes.',
   },
@@ -76,7 +80,20 @@ const usage = {
   security_features: {
     title: 'Seguridad avanzada',
     tooltip:
-      'Función adicional con un precio de ${{price, number}}/mes para el paquete completo de seguridad avanzada, que incluye CAPTCHA, bloqueo de identificador, lista de bloqueo de correos electrónicos (próximamente) y más.',
+      'Función adicional con un precio de ${{price, number}}/mes por el paquete completo de seguridad avanzada, que incluye CAPTCHA, bloqueo de identificador, lista bloqueada de correos electrónicos, y más.',
+  },
+  saml_applications: {
+    title: 'Aplicación SAML',
+    tooltip: 'Función adicional con un precio de ${{price, number}} por aplicación SAML por mes.',
+  },
+  third_party_applications: {
+    title: 'Aplicación de terceros',
+    tooltip: 'Función adicional con un precio de ${{price, number}} por aplicación por mes.',
+  },
+  rbacEnabled: {
+    title: 'Roles',
+    tooltip:
+      'Función adicional con una tarifa fija de ${{price, number}} por mes. El precio no se ve afectado por el número de roles globales.',
   },
   pricing: {
     add_on_changes_in_current_cycle_notice:

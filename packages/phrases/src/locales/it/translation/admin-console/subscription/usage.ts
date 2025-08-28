@@ -55,7 +55,11 @@ const usage = {
   tenant_members: {
     title: 'Membri del tenant',
     tooltip:
-      'Funzionalità aggiuntiva con un prezzo di ${{price, number}} per membro al mese. I primi 3 membri del tenant sono gratuiti.',
+      'Funzionalità aggiuntiva con un prezzo di ${{price, number}} per membro al mese. Il primo {{count}} membro del tenant è gratuito.',
+    tooltip_one:
+      'Funzionalità aggiuntiva con un prezzo di ${{price, number}} per membro al mese. Il primo {{count}} membro del tenant è gratuito.',
+    tooltip_other:
+      'Funzionalità aggiuntiva con un prezzo di ${{price, number}} per membro al mese. I primi {{count}} membri del tenant sono gratuiti.',
     tooltip_for_enterprise:
       'I primi {{basicQuota}} membri del tenant sono inclusi e gratuiti nel tuo piano basato su contratto. Se ne hai bisogno di più, ${{price, number}} per membro del tenant al mese.',
   },
@@ -76,7 +80,20 @@ const usage = {
   security_features: {
     title: 'Sicurezza avanzata',
     tooltip:
-      'Funzionalità aggiuntiva con un prezzo di ${{price, number}}/mese per il pacchetto completo di sicurezza avanzata, inclusi CAPTCHA, blocco identificatore, lista nera email (in arrivo) e altro ancora.',
+      "Funzionalità aggiuntiva con un prezzo di ${{price, number}}/mese per l'intero pacchetto di sicurezza avanzata, che include CAPTCHA, blocco identificativo, lista nera email e altro.",
+  },
+  saml_applications: {
+    title: 'App SAML',
+    tooltip: 'Funzionalità aggiuntiva con un prezzo di ${{price, number}} per app SAML al mese.',
+  },
+  third_party_applications: {
+    title: 'App di terze parti',
+    tooltip: 'Funzionalità aggiuntiva con un prezzo di ${{price, number}} per app al mese.',
+  },
+  rbacEnabled: {
+    title: 'Ruoli',
+    tooltip:
+      'Funzionalità aggiuntiva con una tariffa fissa di ${{price, number}} al mese. Il prezzo non è influenzato dal numero di ruoli globali.',
   },
   pricing: {
     add_on_changes_in_current_cycle_notice:

@@ -54,9 +54,13 @@ const usage = {
   tenant_members: {
     title: 'Tenant members',
     tooltip:
-      'Add-on feature priced at ${{price, number}} per member per month. The first 3 tenant members are free.',
+      'Add-on feature priced at ${{price, number}} per member per month. The first {{count}} tenant member is free.',
+    tooltip_one:
+      'Add-on feature priced at ${{price, number}} per member per month. The first {{count}} tenant member is free.',
+    tooltip_other:
+      'Add-on feature priced at ${{price, number}} per member per month. The first {{count}} tenants member are free.',
     tooltip_for_enterprise:
-      'The first {{basicQuota}} tenant members are included and free to use in your contract-based plan. If you need more, ${{price, number}} per tenant member per month.',
+      'The first {{count}} tenant members are included and free to use in your contract-based plan. If you need more, ${{price, number}} per tenant member per month.',
   },
   tokens: {
     title: 'Tokens',
@@ -75,7 +79,20 @@ const usage = {
   security_features: {
     title: 'Advanced security',
     tooltip:
-      'Add-on feature with a price of ${{price, number}}/month for the full advanced security bundle, including CAPTCHA, identifier lockout, email blocklist (coming soon), and more.',
+      'Add-on feature with a price of ${{price, number}}/month for the full advanced security bundle, including CAPTCHA, identifier lockout, email blocklist, and more.',
+  },
+  saml_applications: {
+    title: 'SAML app',
+    tooltip: 'Add-on feature priced at ${{price, number}} per SAML app per month. ',
+  },
+  third_party_applications: {
+    title: 'Third-party app',
+    tooltip: 'Add-on feature priced at ${{price, number}} per app per month.',
+  },
+  rbacEnabled: {
+    title: 'Roles',
+    tooltip:
+      'Add-on feature with a flat rate of ${{price, number}} per month. Price is not affected by the number of global roles.',
   },
   pricing: {
     add_on_changes_in_current_cycle_notice:

@@ -48,6 +48,8 @@ const session = {
     invalid_backup_code: 'Code de sauvegarde non valide.',
     mfa_policy_not_user_controlled: "La politique MFA n'est pas contrôlée par l'utilisateur.",
     mfa_factor_not_enabled: "Le facteur MFA n'est pas activé.",
+    suggest_additional_mfa:
+      'Pour une meilleure protection, ajoutez une autre méthode MFA. Vous pouvez ignorer cette étape et continuer.',
   },
   sso_enabled:
     'La connexion unique est activée pour cet e-mail donné. Veuillez vous connecter avec SSO.',
@@ -61,8 +63,7 @@ const session = {
       'L\'adresse e-mail "{{email}}" est restreinte. Veuillez en choisir une autre.',
   },
   google_one_tap: {
-    /** UNTRANSLATED */
-    cookie_mismatch: 'Google One Tap cookie mismatch.',
+    cookie_mismatch: 'Incompatibilité des cookies Google One Tap.',
     invalid_id_token: "Jeton d'ID Google invalide.",
     unverified_email: 'E-mail non vérifié.',
   },
